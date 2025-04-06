@@ -1,6 +1,5 @@
 package com.example.partspracing.service;
 
-import ch.qos.logback.core.util.StringUtil;
 import com.example.partspracing.PartDtoMapper;
 import com.example.partspracing.RestClient;
 import com.example.partspracing.entity.ForumAutoPartDto;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;

@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class PartsPricingApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver", "./driver/chromedriver.exe");
 		SpringApplication.run(PartsPricingApplication.class, args);
 	}
-
 }

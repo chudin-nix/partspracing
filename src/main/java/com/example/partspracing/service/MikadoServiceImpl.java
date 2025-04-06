@@ -28,7 +28,6 @@ public class MikadoServiceImpl implements PartService {
     private String url;
 
     public MikadoServiceImpl() {
-        System.setProperty("webdriver.chrome.driver", "./driver/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
       //  options.addArguments("--headless");
         driver = new ChromeDriver(options);
