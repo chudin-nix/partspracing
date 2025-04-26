@@ -3,7 +3,7 @@ package com.example.partspracing.entity;
 import lombok.Builder;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+
 @Builder
 public class PartDto{
     private String id;
@@ -11,8 +11,21 @@ public class PartDto{
     private String company;
     private int count;
     private int shippingDate;
-    private BigDecimal price;
+    private String price;
     private String source;
+
+    public PartDto() {
+    }
+
+    public PartDto(String id, String name, String company, int count, int shippingDate, String price, String source) {
+        this.id = id;
+        this.name = name;
+        this.company = company;
+        this.count = count;
+        this.shippingDate = shippingDate;
+        this.price = price;
+        this.source = source;
+    }
 
     public String getSource() {
         return source;
@@ -38,7 +51,7 @@ public class PartDto{
         return shippingDate;
     }
 
-    public BigDecimal getPrice() {
+    public String getPrice() {
         return price;
     }
 
@@ -62,7 +75,7 @@ public class PartDto{
         this.shippingDate = shippingDate;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 }

@@ -21,7 +21,7 @@ public class PartDtoMapper {
                 .count(forumAutoPartDto.getNum())
                 .shippingDate(forumAutoPartDto.getdDeliv())
                 .source("ForumAuto")
-                .price(BigDecimal.valueOf(forumAutoPartDto.getPrice()))
+                .price(String.valueOf(forumAutoPartDto.getPrice()))
                 .build();
     }
 
@@ -35,7 +35,7 @@ public class PartDtoMapper {
                 .count(rosskoPartDto.getCount())
                 .shippingDate(rosskoPartDto.getDelivery())
                 .source("Rossko")
-                .price(BigDecimal.valueOf(rosskoPartDto.getPrice()))
+                .price(String.valueOf(rosskoPartDto.getPrice()))
                 .build());
 
         if (rosskoPartDto.getStocks() != null) {
@@ -48,7 +48,7 @@ public class PartDtoMapper {
                                 .count(rosskoPartDto.getCount())
                                 .shippingDate(rosskoPartDto.getDelivery())
                                 .source("Rossko")
-                                .price(BigDecimal.valueOf(rosskoPartDto.getPrice()))
+                                .price(String.valueOf(rosskoPartDto.getPrice()))
                                 .build();
                         partDtos.add(stockPartDto);
                     });
@@ -65,7 +65,7 @@ public class PartDtoMapper {
                   .count(emexPartDto.getQuantity())
                   .shippingDate(emexPartDto.getADDays())
                   .source("Emex")
-                  .price(emexPartDto.getResultPrice())
+                  .price(String.valueOf(emexPartDto.getResultPrice()))
                   .build();
     }
 
@@ -77,7 +77,7 @@ public class PartDtoMapper {
                 .count(mikadoPartDto.getPartCount())
                 .shippingDate(mikadoPartDto.getShippingDate())
                 .source("Mikado")
-                .price(mikadoPartDto.getPrice())
+                .price(String.valueOf(mikadoPartDto.getPrice()))
                 .build();
     }
 }
