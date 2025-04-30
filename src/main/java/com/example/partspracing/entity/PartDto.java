@@ -78,4 +78,8 @@ public class PartDto{
     public void setPrice(String price) {
         this.price = price;
     }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 }

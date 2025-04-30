@@ -40,7 +40,7 @@ public class ForumAutoServiceImpl implements PartService{
                 try {
                     ForumAutoPartDto[] result = objectMapper.readValue(response.getBody(), ForumAutoPartDto[].class);
                     List<PartDto> parts = Stream.of(result).map(part->partDtoMapper.toPartDto(part)).toList();
-                    return parts;//Arrays.asList(response.getBody());
+                    return parts;
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
                     return Collections.emptyList();

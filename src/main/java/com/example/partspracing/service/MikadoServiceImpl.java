@@ -63,7 +63,7 @@ public class MikadoServiceImpl implements PartService {
             return Collections.emptyList();
         }
 
-        String searchUrl = baseUrl + "/office/SearchCodeG.asp?CODE=" + URLEncoder.encode(partNumber, StandardCharsets.UTF_8);
+        String searchUrl = baseUrl + "office/SearchCodeG.asp?CODE=" + URLEncoder.encode(partNumber, StandardCharsets.UTF_8);
         String response = defaultRestTemplate.getForObject(searchUrl, String.class);
 
         return parsePartsFromResponse(response);
@@ -108,18 +108,20 @@ public class MikadoServiceImpl implements PartService {
 
         try {
             Document doc = Jsoup.parse(html);
-            Elements rows = doc.selectXpath("//table[@id='maintbl']");
-            Elements supplier = doc.selectXpath("//*[@onclick='if(!working) pClick(this)']//td//following-sibling::td");
+            Elements rows = doc.selectXpath("//tr[@onclick='if(!working) pClick(this)']");
 
-
-            if (rows == null) {
-                throw new RuntimeException("Форма поиска не найдена на странице");
+            if (rows.isEmpty()) {
+                throw new RuntimeException("Данные о деталях не найдены на странице");
             }
+
             for (Element row : rows) {
                 PartDto part = new PartDto();
-                part.setId(row.select("td:nth-child(1)").text());
-                part.setName(row.select("td:nth-child(2)").text());
-                part.setPrice(row.select("td:nth-child(3)").text());
+
+                part.setId(row.select("td:first-child a").text());
+                part.setName(row.select("td:nth-child(3)").text());
+                part.setCompany(row.select("td:nth-child(2)").text());
+                part.setPrice(row.select("td:nth-child(4)").text());
+                part.setSource("Mikado");
                 parts.add(part);
             }
         } catch (Exception e) {
