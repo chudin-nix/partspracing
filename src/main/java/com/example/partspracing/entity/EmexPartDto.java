@@ -3,10 +3,11 @@ package com.example.partspracing.entity;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
-
 import java.math.BigDecimal;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EmexPartDto{
+
     @XmlElement(name = "GroupId")
     private int groupId;
     @XmlElement(name = "PriceGroup")
@@ -40,12 +41,13 @@ public class EmexPartDto{
     private int lotQuantity;
 
     @XmlElement(name = "Quantity")
-    private int quantity;
+    private String quantity;
 
     @XmlElement(name = "DDPercent")
     private double dDPercent;
+
     @XmlElement(name = "ADDays")
-    private int aDDays;
+    private String aDDays;
 
     @XmlElement(name = "ResultPrice")
     private BigDecimal resultPrice;
@@ -97,7 +99,7 @@ public class EmexPartDto{
         return lotQuantity;
     }
 
-    public int getQuantity() {
+    public String getQuantity() {
         return quantity;
     }
 
@@ -105,7 +107,7 @@ public class EmexPartDto{
         return dDPercent;
     }
 
-    public int getADDays() {
+    public String getADDays() {
         return aDDays;
     }
 
@@ -161,7 +163,7 @@ public class EmexPartDto{
         this.lotQuantity = lotQuantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 
@@ -169,7 +171,7 @@ public class EmexPartDto{
         this.dDPercent = dDPercent;
     }
 
-    public void setADDays(int aDDays) {
+    public void setADDays(String aDDays) {
         this.aDDays = aDDays;
     }
 

@@ -2,22 +2,21 @@ package com.example.partspracing.entity;
 
 import lombok.Builder;
 
-import java.math.BigDecimal;
-
 @Builder
 public class PartDto{
     private String id;
     private String name;
     private String company;
-    private int count;
-    private int shippingDate;
+    private String count;
+    private String shippingDate;
     private String price;
     private String source;
+    private int priority;
 
     public PartDto() {
     }
 
-    public PartDto(String id, String name, String company, int count, int shippingDate, String price, String source) {
+    public PartDto(String id, String name, String company, String count, String shippingDate, String price, String source, int priority) {
         this.id = id;
         this.name = name;
         this.company = company;
@@ -25,6 +24,11 @@ public class PartDto{
         this.shippingDate = shippingDate;
         this.price = price;
         this.source = source;
+        this.priority = priority;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 
     public String getSource() {
@@ -43,11 +47,11 @@ public class PartDto{
         return company;
     }
 
-    public int getCount() {
+    public String getCount() {
         return count;
     }
 
-    public int getShippingDate() {
+    public String getShippingDate() {
         return shippingDate;
     }
 
@@ -67,11 +71,11 @@ public class PartDto{
         this.company = company;
     }
 
-    public void setCount(int count) {
+    public void setCount(String count) {
         this.count = count;
     }
 
-    public void setShippingDate(int shippingDate) {
+    public void setShippingDate(String shippingDate) {
         this.shippingDate = shippingDate;
     }
 
@@ -81,5 +85,9 @@ public class PartDto{
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 }

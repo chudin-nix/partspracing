@@ -2,7 +2,7 @@ package com.example.partspracing.service;
 
 import com.example.partspracing.PartDtoMapper;
 import com.example.partspracing.entity.PartsContainer;
-import com.example.partspracing.RestClient;
+import com.example.partspracing.rest.SpringRestClient;
 import com.example.partspracing.XmlParser;
 import com.example.partspracing.entity.PartDto;
 import com.example.partspracing.entity.RosskoPartDto;
@@ -35,13 +35,13 @@ public class RosskoServiceImpl implements PartService {
                </SOAP-ENV:Body>
             </SOAP-ENV:Envelope>
             """;
-    private final RestClient restClient;
+    private final SpringRestClient restClient;
     private XmlParser xmlParser = new XmlParser();
 
     @Autowired
     private PartDtoMapper partDtoMapper;
 
-    public RosskoServiceImpl(RestClient restClient, XmlParser xmlParser) {
+    public RosskoServiceImpl(SpringRestClient restClient, XmlParser xmlParser) {
         this.restClient = restClient;
         this.xmlParser = xmlParser;
     }
@@ -50,8 +50,8 @@ public class RosskoServiceImpl implements PartService {
     private String url;
 
     @Override
-    public List<PartDto> getParts(String partNumber) {
-        ResponseEntity<String> response = restClient.post(url, REQUEST.replaceAll("partNumber", partNumber), String.class);
+    public List<PartDto> getParts(String partNumber, String brand) {
+        ResponseEntity<String> response = restClient.post(url, REQUEST.replaceAll("partNumber", brand + " " + partNumber), String.class);
         String xmlResponse = response.getBody();
         int start = xmlResponse.indexOf("<ns1:PartsList>");
         if (start >= 0) {

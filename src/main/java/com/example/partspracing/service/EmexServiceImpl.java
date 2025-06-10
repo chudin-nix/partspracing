@@ -2,29 +2,14 @@ package com.example.partspracing.service;
 
 import com.example.partspracing.PartDtoMapper;
 import com.example.partspracing.XmlParser;
-import com.example.partspracing.entity.EmexPartDto;
-import com.example.partspracing.entity.EmexPartsContainer;
-import com.example.partspracing.entity.PartDto;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.xmlbeans.impl.common.IOUtil;
+import com.example.partspracing.entity.*;
+import com.example.partspracing.rest.ApacheRestClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +25,7 @@ public class EmexServiceImpl implements PartService {
                 <FindDetailAdv4 xmlns="http://tempuri.org/">
                   <login>2987925</login>
                   <password>c8ed241f</password>
-                  <makeLogo>string</makeLogo>
+                  <makeLogo>makeLogo</makeLogo>
                   <detailNum>partNumber</detailNum>
                   <substLevel>All</substLevel>
                   <substFilter>FilterOriginalAndReplacements</substFilter>
@@ -48,11 +33,17 @@ public class EmexServiceImpl implements PartService {
                 </FindDetailAdv4>
               </soap12:Body>
             </soap12:Envelope>
-                """;
+            """;
+
     private final RestTemplate restTemplate;
-    private  XmlParser xmlParser = new XmlParser();
+
+    private XmlParser xmlParser = new XmlParser();
+
     @Autowired
     private PartDtoMapper partDtoMapper;
+
+    @Autowired
+    private ApacheRestClient apacheRestClient;
 
     public EmexServiceImpl(RestTemplate restTemplate, XmlParser xmlParser) {
         this.xmlParser = xmlParser;
@@ -63,9 +54,11 @@ public class EmexServiceImpl implements PartService {
     private String url;
 
     @Override
-    public List<PartDto> getParts(String partNumber) {
+    public List<PartDto> getParts(String partNumber, String makeLogo) {
+        //todo нужно сетать int priority в PartDto
         String request = REQUEST.replaceAll("partNumber", partNumber);
-        String xmlResponse = executePost(request);
+        String requestWithMakeLogo = request.replaceAll("makeLogo", makeLogo);
+        String xmlResponse = apacheRestClient.post(requestWithMakeLogo, url);
 
         int start = xmlResponse.indexOf("<Details>");
         if (start >= 0) {
@@ -84,18 +77,5 @@ public class EmexServiceImpl implements PartService {
         }
     }
 
-    private String executePost(String request) {
-        try {
-            final HttpPost httpPost = new HttpPost(url);
-            StringEntity entity = new StringEntity(request);
-            httpPost.setEntity(entity);
-            httpPost.setHeader("Content-type", "application/soap+xml; charset=utf-8");
-            try (CloseableHttpClient client = HttpClients.createDefault();
-                 CloseableHttpResponse response =  client.execute(httpPost)) {
-                return IOUtils.toString(response.getEntity().getContent());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 }

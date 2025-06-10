@@ -14,9 +14,9 @@ public class MikadoPartDto{
     @XmlElement(name = "PartCompany")
     String partCompany;
     @XmlElement(name = "PartCount")
-    int partCount;
+    String partCount;
     @XmlElement(name = "ShippingDate")
-    int shippingDate;
+    String shippingDate;
     @XmlElement(name = "Price")
     BigDecimal price;
 
@@ -32,11 +32,11 @@ public class MikadoPartDto{
         return partCompany;
     }
 
-    public int getPartCount() {
+    public String getPartCount() {
         return partCount;
     }
 
-    public int getShippingDate() {
+    public String getShippingDate() {
         return shippingDate;
     }
 
@@ -56,11 +56,11 @@ public class MikadoPartDto{
         this.partCompany = partCompany;
     }
 
-    public void setPartCount(int partCount) {
+    public void setPartCount(String partCount) {
         this.partCount = partCount;
     }
 
-    public void setShippingDate(int shippingDate) {
+    public void setShippingDate(String shippingDate) {
         this.shippingDate = shippingDate;
     }
 

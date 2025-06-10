@@ -1,4 +1,4 @@
-package com.example.partspracing;
+package com.example.partspracing.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-public class RestClient {
+public class SpringRestClient implements RestClient {
     @Autowired
     private RestTemplate restTemplate;
     public <T>ResponseEntity<T> get(String url, Class<T> responseType) {

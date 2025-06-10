@@ -1,7 +1,7 @@
 package com.example.partspracing.service;
 
 import com.example.partspracing.PartDtoMapper;
-import com.example.partspracing.RestClient;
+import com.example.partspracing.rest.SpringRestClient;
 import com.example.partspracing.entity.ForumAutoPartDto;
 import com.example.partspracing.entity.PartDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -22,23 +23,28 @@ import java.util.stream.Stream;
 @Qualifier("forum")
 public class ForumAutoServiceImpl implements PartService{
 
-    private final RestClient restClient;
+    private final SpringRestClient restClient;
     @Autowired
     private PartDtoMapper partDtoMapper;
+
     @Value("${forumAuto.url}")
     private String url;
+
     private ObjectMapper objectMapper = new ObjectMapper();
-    public ForumAutoServiceImpl(RestClient restClient) {
+
+    public ForumAutoServiceImpl(SpringRestClient restClient) {
         this.restClient = restClient;
     }
 
     @Override
-    public List<PartDto> getParts(String partNumber) {
+    public List<PartDto> getParts(String partNumber, String brand) {
         if (!StringUtils.isEmpty(partNumber)) {
-            ResponseEntity<String> response = restClient.get(url.replaceAll("partNumber", partNumber), String.class);
-            if (response.getStatusCode()== HttpStatusCode.valueOf(200)) {
+            String request = url.replaceAll("brand", URLEncoder.encode(brand))
+                    .replaceAll("partNumber", partNumber);
+            ResponseEntity<String> responseWithBrand = restClient.get(request, String.class);
+            if (responseWithBrand.getStatusCode()== HttpStatusCode.valueOf(200)) {
                 try {
-                    ForumAutoPartDto[] result = objectMapper.readValue(response.getBody(), ForumAutoPartDto[].class);
+                    ForumAutoPartDto[] result = objectMapper.readValue(responseWithBrand.getBody(), ForumAutoPartDto[].class);
                     List<PartDto> parts = Stream.of(result).map(part->partDtoMapper.toPartDto(part)).toList();
                     return parts;
                 } catch (JsonProcessingException e) {

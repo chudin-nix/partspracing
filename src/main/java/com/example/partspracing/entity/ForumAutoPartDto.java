@@ -8,11 +8,11 @@ public class ForumAutoPartDto {
     private String brand;
     private String art;
     private String name;
-    private int dDeliv;
-    private int hDeliv;
+    private String dDeliv;
+    private String hDeliv;
     private int kr;
-    private int num;
-    private double price;
+    private String num;
+    private String price;
     private String whse;
     private int isReturnable;
 
@@ -32,11 +32,11 @@ public class ForumAutoPartDto {
         return name;
     }
 
-    public int getdDeliv() {
+    public String getdDeliv() {
         return dDeliv;
     }
 
-    public int gethDeliv() {
+    public String gethDeliv() {
         return hDeliv;
     }
 
@@ -44,11 +44,11 @@ public class ForumAutoPartDto {
         return kr;
     }
 
-    public int getNum() {
+    public String getNum() {
         return num;
     }
 
-    public double getPrice() {
+    public String getPrice() {
         return price;
     }
 
@@ -76,11 +76,11 @@ public class ForumAutoPartDto {
         this.name = name;
     }
 
-    public void setdDeliv(int dDeliv) {
+    public void setdDeliv(String dDeliv) {
         this.dDeliv = dDeliv;
     }
 
-    public void sethDeliv(int hDeliv) {
+    public void sethDeliv(String hDeliv) {
         this.hDeliv = hDeliv;
     }
 
@@ -88,11 +88,11 @@ public class ForumAutoPartDto {
         this.kr = kr;
     }
 
-    public void setNum(int num) {
+    public void setNum(String num) {
         this.num = num;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

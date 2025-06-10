@@ -23,6 +23,8 @@ import java.net.CookiePolicy;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Qualifier("mikado")
@@ -33,11 +35,6 @@ public class MikadoServiceImpl implements PartService {
     private final RestTemplate restTemplateWithoutRedirects;
 
     private final CookieManager cookieManager;
-
-    private static final String LOGIN_URL = "https://www.mikado-parts.ru/office/login.asp";
-    private static final String SUBMIT_URL = "https://www.mikado-parts.ru/office/SECURE.asp";
-    private static final String LOGIN_FIELD = "CODE";
-    private static final String PASSWORD_FIELD = "PASSWORD";
 
     @Value("${mikado.login}")
     private String login;
@@ -58,15 +55,16 @@ public class MikadoServiceImpl implements PartService {
     }
 
     @Override
-    public List<PartDto> getParts(String partNumber) {
+    public List<PartDto> getParts(String partNumber, String brand) {
         if (!authenticate()) {
             return Collections.emptyList();
         }
 
         String searchUrl = baseUrl + "office/SearchCodeG.asp?CODE=" + URLEncoder.encode(partNumber, StandardCharsets.UTF_8);
         String response = defaultRestTemplate.getForObject(searchUrl, String.class);
+        String responseWithBrands = getBrandsSubpage(response, brand);
 
-        return parsePartsFromResponse(response);
+        return parsePartsFromResponse(responseWithBrands);
     }
 
     private boolean authenticate() {
@@ -108,6 +106,7 @@ public class MikadoServiceImpl implements PartService {
 
         try {
             Document doc = Jsoup.parse(html);
+
             Elements rows = doc.selectXpath("//tr[@onclick='if(!working) pClick(this)']");
 
             if (rows.isEmpty()) {
@@ -120,6 +119,8 @@ public class MikadoServiceImpl implements PartService {
                 part.setId(row.select("td:first-child a").text());
                 part.setName(row.select("td:nth-child(3)").text());
                 part.setCompany(row.select("td:nth-child(2)").text());
+                part.setCount(row.select("td:nth-child(5)").text());
+                part.setShippingDate(row.select("td:nth-child(5)").text());
                 part.setPrice(row.select("td:nth-child(4)").text());
                 part.setSource("Mikado");
                 parts.add(part);
@@ -129,5 +130,26 @@ public class MikadoServiceImpl implements PartService {
         }
 
         return parts;
+    }
+
+    public String getBrandsSubpage(String html, String brand) {
+        Document doc = Jsoup.parse(html);
+
+        Elements rowBrands = doc.selectXpath("//a[contains(@onclick, \"flip1('rs\")]");
+
+        String newURL = null;
+        for (Element brandElement : rowBrands) {
+            String currentBrandText = brandElement.text().replace("&nbsp;", "").trim();
+
+            if (currentBrandText.equalsIgnoreCase(brand)) {
+                String onclickValue = brandElement.attr("onclick");
+                Pattern pattern = Pattern.compile("flip1\\('([^']+)'\\);");
+                Matcher matcher = pattern.matcher(onclickValue);
+                if (matcher.find()) {
+                    newURL = matcher.group(1);
+                }
+            }
+        }
+        return newURL;
     }
 }

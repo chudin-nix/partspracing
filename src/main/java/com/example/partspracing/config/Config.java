@@ -3,10 +3,8 @@ package com.example.partspracing.config;
 import com.example.partspracing.service.PartService;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
@@ -15,7 +13,6 @@ import java.net.CookieHandler;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.util.List;
-import java.util.function.Supplier;
 
 @Configuration
 public class Config {

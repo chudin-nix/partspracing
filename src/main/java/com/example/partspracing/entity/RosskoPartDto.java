@@ -24,7 +24,7 @@ public class RosskoPartDto{
     private double price;
 
     @XmlElement(name = "count")
-    private int count;
+    private String count;
 
     @XmlElement(name = "multiplicity")
     private int multiplicity;
@@ -33,7 +33,7 @@ public class RosskoPartDto{
     private int type;
 
     @XmlElement(name = "delivery")
-    private int delivery;
+    private String delivery;
 
     @XmlElement(name = "extra")
     private int extra;
@@ -74,7 +74,7 @@ public class RosskoPartDto{
         return price;
     }
 
-    public int getCount() {
+    public String getCount() {
         return count;
     }
 
@@ -86,7 +86,7 @@ public class RosskoPartDto{
         return type;
     }
 
-    public int getDelivery() {
+    public String getDelivery() {
         return delivery;
     }
 
@@ -126,7 +126,7 @@ public class RosskoPartDto{
         this.price = price;
     }
 
-    public void setCount(int count) {
+    public void setCount(String count) {
         this.count = count;
     }
 
@@ -138,7 +138,7 @@ public class RosskoPartDto{
         this.type = type;
     }
 
-    public void setDelivery(int delivery) {
+    public void setDelivery(String delivery) {
         this.delivery = delivery;
     }
 
